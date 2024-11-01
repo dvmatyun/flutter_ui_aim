@@ -34,6 +34,7 @@ class CustomLocalizationData {
     required this.cancel_generic,
     required this.submit_generic,
     required this.ok,
+    required this.attack_missed_short,
   });
 
   final String back_btn;
@@ -45,4 +46,7 @@ class CustomLocalizationData {
   final String cancel_generic;
   final String submit_generic;
   final String ok;
+
+  // game related:
+  final String attack_missed_short;
 }
