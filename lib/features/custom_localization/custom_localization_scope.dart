@@ -35,6 +35,7 @@ class CustomLocalizationData {
     required this.submit_generic,
     required this.ok,
     required this.attack_missed_short,
+    this.otherMap = const <String, String>{},
   });
 
   final String back_btn;
@@ -49,4 +50,6 @@ class CustomLocalizationData {
 
   // game related:
   final String attack_missed_short;
+
+  final Map<String, String> otherMap;
 }
