@@ -46,6 +46,7 @@ class AdServiceAim implements IAdServiceAim {
       return adPreloaded;
     }
     await connectivity.waitInternetConnection();
+    var isCriticalError = false;
     final completer = Completer<RewardedAd?>();
     debugPrint(' > preloading #ad : isTest=${config.isTestAd}');
     await RewardedAd.load(
@@ -65,9 +66,11 @@ class AdServiceAim implements IAdServiceAim {
         },
         onAdFailedToLoad: (e) {
           completer.complete(null);
+          final criticalError = 'Unable to obtain a JavascriptEngine'.toLowerCase();
+          isCriticalError = e.message.toLowerCase().contains(criticalError);
           logger?.logImportantMultiple(
             'preload_ad_failed_to_load',
-            e.message,
+            '${e.message} [error_code=${e.code}, error_domain=${e.domain}, critical=$isCriticalError]',
             step: 'attempt ${config.loadAttemptIndex} / ${config.loadAttempts}',
           );
         },
@@ -77,11 +80,12 @@ class AdServiceAim implements IAdServiceAim {
     
     */
     final result = await completer.future;
-    if (result != null) {
+    if (isCriticalError || result != null) {
       return result;
     }
     if (config.loadAttemptIndex < config.loadAttempts) {
-      await Future<void>.delayed(const Duration(seconds: 2));
+      final addTimeout = (config.loadAttemptIndex + 1) * (config.loadAttemptIndex + 1);
+      await Future<void>.delayed(Duration(seconds: 2 + addTimeout));
       return _loadAdInternal(config.copyWith(loadAttemptIndex: config.loadAttemptIndex + 1));
     }
     return null;
@@ -97,6 +101,11 @@ class AdServiceAim implements IAdServiceAim {
       final ad = await _loadAdInternal(config);
       _loadedAds.remove(config.adUnitId);
       if (ad == null) {
+        if (config.loadAttemptIndex <= 1) {
+          return showAd(
+            config.copyWith(loadAttemptIndex: config.loadAttemptIndex + 1),
+          );
+        }
         logger?.logImportant('show_ad_failed_load', config.name);
         return false;
       }
