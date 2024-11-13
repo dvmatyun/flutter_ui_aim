@@ -9,16 +9,28 @@ import 'error_modal.dart';
 /// {@endtemplate}
 class MessageModal extends StatefulWidget {
   /// {@macro remove_booking_modal}
-  const MessageModal({required this.message, super.key});
+  const MessageModal({required this.message, this.topper, this.buttonsBottom, super.key});
 
+  final Widget? topper;
+  final Widget? buttonsBottom;
   final String message;
 
-  static Future<bool> onShowModal(BuildContext context, {required String title, required String message}) async {
+  static Future<bool> onShowModal(
+    BuildContext context, {
+    required String title,
+    required String message,
+    Widget? topper,
+    Widget? buttonsBottom,
+  }) async {
     //final localization = Localization.of(context);
     //localization.
     ErrorModal.onModalShown?.call();
     final result = await BottomSheetAim.flexible(
-      body: MessageModal(message: message),
+      body: MessageModal(
+        message: message,
+        topper: topper,
+        buttonsBottom: buttonsBottom,
+      ),
       title: Text(title),
     ).show(context);
     if (result is bool && result) {
@@ -45,6 +57,7 @@ class _MessageModalState extends State<MessageModal> {
         mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(height: 16),
+          widget.topper ?? const SizedBox(),
           Text(
             widget.message,
             //style: textTheme.regular15.copyWith(
@@ -52,7 +65,7 @@ class _MessageModalState extends State<MessageModal> {
             //),
           ),
           const SizedBox(height: 16),
-          Align(
+          widget.buttonsBottom ?? Align(
             alignment: Alignment.bottomRight,
             child: TextButton(
               onPressed: () {

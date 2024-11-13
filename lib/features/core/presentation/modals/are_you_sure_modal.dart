@@ -9,16 +9,27 @@ import 'error_modal.dart';
 /// {@endtemplate}
 class AreYouSureModal extends StatefulWidget {
   /// {@macro remove_booking_modal}
-  const AreYouSureModal({required this.question, super.key});
+  const AreYouSureModal({required this.question, this.topper, this.buttonsBottom, super.key});
 
+  final Widget? topper;
+  final Widget? buttonsBottom;
   final String question;
 
-  static Future<bool> onShowModal(BuildContext context, String question) async {
+  static Future<bool> onShowModal(
+    BuildContext context,
+    String question,
+    Widget? topper,
+    Widget? buttonsBottom,
+  ) async {
     final localization = CustomUiScope.of(context);
     ErrorModal.onModalShown?.call();
     //localization.
     final result = await BottomSheetAim.flexible(
-      body: AreYouSureModal(question: question),
+      body: AreYouSureModal(
+        question: question,
+        topper: topper,
+        buttonsBottom: buttonsBottom,
+      ),
       title: Text(localization.attention),
     ).show(context);
     if (result is bool && result) {
@@ -44,6 +55,7 @@ class _AreYouSureModalState extends State<AreYouSureModal> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          widget.topper ?? const SizedBox(),
           Text(
             widget.question,
             //style: textTheme.regular15.copyWith(
@@ -51,7 +63,7 @@ class _AreYouSureModalState extends State<AreYouSureModal> {
             //),
           ),
           const SizedBox(height: 16),
-          Row(
+          widget.buttonsBottom ??Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TextButton(

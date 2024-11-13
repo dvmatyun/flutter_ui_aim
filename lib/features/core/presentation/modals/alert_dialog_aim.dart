@@ -59,7 +59,7 @@ class BottomSheetAim extends StatelessWidget {
     this.headerTrailing,
     this.headerLeading,
     this.useKeyboardPadding = false,
-    this.padding = const EdgeInsets.only(bottom: 0),
+    this.padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     this.showDraggableBrick = true,
     super.key,
   });
@@ -72,7 +72,7 @@ class BottomSheetAim extends StatelessWidget {
     this.headerTrailing,
     this.headerLeading,
     this.useKeyboardPadding = false,
-    this.padding = const EdgeInsets.only(bottom: 0),
+    this.padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     this.showDraggableBrick = true,
     super.key,
   }) : size = null;
@@ -105,7 +105,7 @@ class BottomSheetAim extends StatelessWidget {
                 (MediaQuery.sizeOf(context).width > 600
                     ? const EdgeInsets.symmetric(horizontal: 32)
                     : const EdgeInsets.symmetric(horizontal: 8)),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
 
             shape: const BeveledRectangleBorder(),
             //surfaceTintColor: QyreColors.white100,

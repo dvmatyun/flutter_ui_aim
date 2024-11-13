@@ -9,18 +9,35 @@ import 'package:custom_ui/features/core/presentation/modals/alert_dialog_aim.dar
 /// {@endtemplate}
 class ErrorModal extends StatefulWidget {
   /// {@macro remove_booking_modal}
-  const ErrorModal({required this.message, super.key});
+  const ErrorModal({
+    required this.message,
+    this.topper,
+    this.buttonsBottom,
+    super.key,
+  });
 
   final String message;
+  final Widget? topper;
+  final Widget? buttonsBottom;
 
   static VoidCallback? onModalShown;
 
-  static Future<void> onShowModal(BuildContext context, String message, {String? title}) async {
+  static Future<void> onShowModal(
+    BuildContext context,
+    String message, {
+    String? title,
+    Widget? topper,
+    Widget? buttonsBottom,
+  }) async {
     final localization = CustomUiScope.of(context);
     onModalShown?.call();
     //localization.
     await BottomSheetAim.flexible(
-      body: ErrorModal(message: message),
+      body: ErrorModal(
+        message: message,
+        topper: topper,
+        buttonsBottom: buttonsBottom,
+      ),
       title: Text(title ?? localization.attention),
     ).show(context);
   }
@@ -41,13 +58,14 @@ class _ErrorModalState extends State<ErrorModal> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          widget.topper ?? const SizedBox(),
           Text(
             widget.message,
             //style: textTheme.regular15.copyWith(
             //  color: QyreColors.black100,
             //),
           ),
-          Align(
+          widget.buttonsBottom ?? Align(
             alignment: Alignment.centerRight,
             child: TextButton(
               onPressed: () {
