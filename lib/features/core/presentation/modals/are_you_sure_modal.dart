@@ -17,10 +17,10 @@ class AreYouSureModal extends StatefulWidget {
 
   static Future<bool> onShowModal(
     BuildContext context,
-    String question,
+    String question, {
     Widget? topper,
     Widget? buttonsBottom,
-  ) async {
+  }) async {
     final localization = CustomUiScope.of(context);
     ErrorModal.onModalShown?.call();
     //localization.
@@ -63,29 +63,30 @@ class _AreYouSureModalState extends State<AreYouSureModal> {
             //),
           ),
           const SizedBox(height: 16),
-          widget.buttonsBottom ??Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-                child: Text(
-                  localization.no,
-                  style: textTheme.bodyMedium ?? const TextStyle(),
-                ),
+          widget.buttonsBottom ??
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                    child: Text(
+                      localization.no,
+                      style: textTheme.bodyMedium ?? const TextStyle(),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                    child: Text(
+                      localization.yes,
+                      style: textTheme.bodyMedium ?? const TextStyle(),
+                    ),
+                  ),
+                ],
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-                child: Text(
-                  localization.yes,
-                  style: textTheme.bodyMedium ?? const TextStyle(),
-                ),
-              ),
-            ],
-          ),
         ],
       ),
     );
