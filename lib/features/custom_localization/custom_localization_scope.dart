@@ -35,6 +35,9 @@ class CustomLocalizationData {
     required this.submit_generic,
     required this.ok,
     required this.attack_missed_short,
+    required this.tryingToLoadAdMessage,
+    required this.adIsShownMessage,
+    required this.rewardedAdTitle,
     this.otherMap = const <String, String>{},
   });
 
@@ -47,6 +50,11 @@ class CustomLocalizationData {
   final String cancel_generic;
   final String submit_generic;
   final String ok;
+
+  // ads related:
+  final String rewardedAdTitle;
+  final String adIsShownMessage;
+  final String tryingToLoadAdMessage;
 
   // game related:
   final String attack_missed_short;

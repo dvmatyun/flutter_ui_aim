@@ -94,7 +94,12 @@ class _ShowAdScreenState extends State<ShowAdScreen> {
       await Future<void>.delayed(const Duration(seconds: 1));
       _adLoaded = true;
     } else {
-      _adLoaded = await widget.adService.preloadAd(config);
+      if (widget.config.emulateUnableToLoad) {
+        await Future<void>.delayed(const Duration(seconds: 10));
+        _adLoaded = false;
+      } else {
+        _adLoaded = await widget.adService.preloadAd(config);
+      }
     }
     if (mounted) {
       setState(() {});
@@ -135,16 +140,17 @@ class _ShowAdScreenState extends State<ShowAdScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final localization = CustomUiScope.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Rewarded Ads'),
+        title: Text(localization.rewardedAdTitle),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const CircularProgressIndicator.adaptive(),
-          if (!_adLoaded) const Text('Loading ad...'),
-          if (_adShown) const Text('Ad shown, you will get your reward soon...'),
+          if (!_adLoaded) Text(localization.tryingToLoadAdMessage),
+          if (_adShown) Text(localization.adIsShownMessage),
         ],
       ),
     );

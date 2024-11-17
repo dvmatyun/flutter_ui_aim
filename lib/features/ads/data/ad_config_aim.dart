@@ -7,12 +7,15 @@ class AdUnitConfigAim {
   final int loadAttempts;
   final int loadAttemptIndex;
 
+  final bool emulateUnableToLoad;
+
   const AdUnitConfigAim({
     required this.name,
     required this.adUnitId,
     this.isTestAd = false,
     this.loadAttemptIndex = 1,
     this.loadAttempts = 5,
+    this.emulateUnableToLoad = false,
   });
 
   AdUnitConfigAim copyWith({
@@ -21,6 +24,7 @@ class AdUnitConfigAim {
     bool? isTestAd,
     int? loadAttempts,
     int? loadAttemptIndex,
+    bool? emulateUnableToLoad,
   }) {
     return AdUnitConfigAim(
       name: name ?? this.name,
@@ -28,6 +32,7 @@ class AdUnitConfigAim {
       isTestAd: isTestAd ?? this.isTestAd,
       loadAttempts: loadAttempts ?? this.loadAttempts,
       loadAttemptIndex: loadAttemptIndex ?? this.loadAttemptIndex,
+      emulateUnableToLoad: emulateUnableToLoad ?? this.emulateUnableToLoad,
     );
   }
 }
