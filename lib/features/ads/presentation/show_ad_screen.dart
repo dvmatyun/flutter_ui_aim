@@ -90,17 +90,18 @@ class _ShowAdScreenState extends State<ShowAdScreen> {
   }
 
   Future<void> _loadAd() async {
-    if (widget.cheat) {
-      await Future<void>.delayed(const Duration(seconds: 1));
-      _adLoaded = true;
+    if (widget.config.emulateUnableToLoad) {
+      await Future<void>.delayed(const Duration(seconds: 10));
+      _adLoaded = false;
     } else {
-      if (widget.config.emulateUnableToLoad) {
-        await Future<void>.delayed(const Duration(seconds: 10));
-        _adLoaded = false;
+      if (widget.cheat) {
+        await Future<void>.delayed(const Duration(seconds: 2));
+        _adLoaded = true;
       } else {
         _adLoaded = await widget.adService.preloadAd(config);
       }
     }
+
     if (mounted) {
       setState(() {});
     }
@@ -145,13 +146,16 @@ class _ShowAdScreenState extends State<ShowAdScreen> {
       appBar: AppBar(
         title: Text(localization.rewardedAdTitle),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const CircularProgressIndicator.adaptive(),
-          if (!_adLoaded) Text(localization.tryingToLoadAdMessage),
-          if (_adShown) Text(localization.adIsShownMessage),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const CircularProgressIndicator.adaptive(),
+            if (!_adLoaded) Text(localization.tryingToLoadAdMessage),
+            if (_adShown) Text(localization.adIsShownMessage),
+          ],
+        ),
       ),
     );
   }
