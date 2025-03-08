@@ -24,3 +24,4 @@ export 'features/ads/presentation/show_ad_screen.dart';
 export 'features/lists/single_child_scroll_view_with_bar_aim.dart';
 
 export 'features/custom_localization/custom_localization_scope.dart';
+export 'features/files/file_picker_aim.dart';
